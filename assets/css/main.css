@@ -1,0 +1,59 @@
+/*@import 'normalize.css';*/
+
+:root {
+    --burgundy: #70232F;
+    --white: #FFF;
+    --small-border-radius: 5px;
+    --big-border-radius: 15px;
+    --pink: #D86B79;
+    --main-font: 'Montserrat', sans-serif;
+    --black: #333333;
+    /*--light-grey: #EFEFEF;*/
+    /*--beige: #F7DAAB;*/
+
+    /*--blue-green: #1B7984;*/
+
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Сброс стилей для input */
+input {
+    /*all: unset;*/
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+}
+/* Сброс стилей для button */
+button {
+    box-sizing: border-box; /* Устанавливает правильное поведение размеров */
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer; /* Сохраняет указатель при наведении */
+    outline: none; /* Убирает обводку при фокусе */
+}
+button:focus {
+    background: none; /* Убирает стандартный фон */
+}
+
+/* Сброс стилей для h2 */
+h2 {
+    margin: 0; /* Убирает верхний и нижний отступ */
+    padding: 0; /* Убирает внутренние отступы */
+}
+
+/* Сброс стилей для h3 */
+h3 {
+    margin: 0; /* Убирает верхний и нижний отступ */
+    padding: 0; /* Убирает внутренние отступы */
+}
