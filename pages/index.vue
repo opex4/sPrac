@@ -38,6 +38,7 @@ const setActiveButton = (buttonName) => {
             <div class="cards-container">
                 <div class="cards-age-container">
                     <cards-age-container></cards-age-container>
+                    <cards-age-container></cards-age-container>
                 </div>
             </div>
             <div class="filters-container">
@@ -54,7 +55,7 @@ const setActiveButton = (buttonName) => {
         justify-content: space-between;
         max-width: 1400px;
         width: 100%;
-        margin: 20px 40px 40px 40px;
+        margin: 20px 40px 20px 40px;
         gap: 40px;
     }
     .cards-container{

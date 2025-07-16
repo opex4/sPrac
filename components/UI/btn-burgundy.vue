@@ -13,9 +13,12 @@
         border-radius: var(--small-border-radius);
         background-color: var(--burgundy);
         color: var(--white);
-        padding: 20px 10px 20px 10px;
+        padding: 10px 20px 10px 20px;
         height: 37px;
         font-weight: 500;
         font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

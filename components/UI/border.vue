@@ -10,7 +10,7 @@
 
 <style scoped>
     .border{
-        border-radius: var(--small-border-radius) var(--small-border-radius) 0 0;
+        border-radius: var(--small-border-radius);
         background-color: var(--white);
         border-top: 2px solid var(--burgundy);
         padding: 10px;

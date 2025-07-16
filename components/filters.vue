@@ -29,7 +29,7 @@
         { age: "15 лет", value: 15 },
         { age: "16 лет", value: 16 },
         { age: "17 лет", value: 17 },
-        { age: "18 лет", value: 18 }
+        { age: "18 лет", value: 18 },
     ]);
 
     // Реактивная переменная для выбранного значения
@@ -133,10 +133,10 @@
                 <div class="accordion-header" @click="toggleItem(index)">
                     <span>{{ item.title }}</span>
                     <span class="arrow" :class="{ open: item.isOpen }">
-            <div class="sizes-ico-accordion">
-              <img src="../assets/icons/accordion-ico.svg" alt="">
-            </div>
-          </span>
+                        <div class="sizes-ico-accordion">
+                          <img src="../assets/icons/accordion-ico.svg" alt="">
+                        </div>
+                    </span>
                 </div>
                 <div class="accordion-content" :class="{ open: item.isOpen }">
                     <ul class="ul-gap">
@@ -259,9 +259,6 @@
         align-items: flex-start;
         margin-top: 15px;
     }
-    .accordion-header:hover {
-        background-color: #e0e0e0;
-    }
     .sizes-ico-accordion img {
         width: 15px;
         height: 15px;
@@ -269,7 +266,7 @@
     .accordion-content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        transition: all 0.3s ease-out;
     }
     .accordion-content.open {
         max-height: 300px; /* Увеличено для списков */

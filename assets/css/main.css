@@ -8,9 +8,10 @@
     --pink: #D86B79;
     --main-font: 'Montserrat', sans-serif;
     --black: #333333;
-    /*--light-grey: #EFEFEF;*/
-    /*--beige: #F7DAAB;*/
+    --burgundy-dark: #2F050F;
+    --beige: #F7DAAB;
 
+    /*--light-grey: #EFEFEF;*/
     /*--blue-green: #1B7984;*/
 
     font-family: 'Montserrat', sans-serif;
@@ -56,6 +57,11 @@ h2 {
 h3 {
     margin: 0; /* Убирает верхний и нижний отступ */
     padding: 0; /* Убирает внутренние отступы */
+    font-size: 16px; /* Сброс размера шрифта на значение по умолчанию (можно изменить) */
+    font-weight: normal; /* Сброс жирности шрифта */
+    line-height: 1; /* Сброс высоты строки */
+    color: inherit; /* Сброс цвета текста */
+    border: none; /* Сброс рамок */
 }
 
 /* Сброс стилей для списков */
