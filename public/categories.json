@@ -1,0 +1,108 @@
+[
+  {
+    "category": "Силовой спорт",
+    "subcategory": [
+      "Тяжелая атлетика",
+      "Пауэрлифтинг"
+    ]
+  },
+  {
+    "category": "Единоборства",
+    "subcategory": [
+      "Вольная борьба",
+      "Дзюдо"
+    ]
+  },
+  {
+    "category": "ДПИ и ремесла",
+    "subcategory": []
+  },
+  {
+    "category": "Техническое конструирование",
+    "subcategory": []
+  },
+  {
+    "category": "Словесность",
+    "subcategory": []
+  },
+  {
+    "category": "Иностранные языки",
+    "subcategory": []
+  },
+  {
+    "category": "Развитие интеллекта",
+    "subcategory": []
+  },
+  {
+    "category": "Информационные технологии",
+    "subcategory": []
+  },
+  {
+    "category": "История и Традиции",
+    "subcategory": []
+  },
+  {
+    "category": "Педагогика",
+    "subcategory": []
+  },
+  {
+    "category": "Музыка и звук",
+    "subcategory": []
+  },
+  {
+    "category": "Пение",
+    "subcategory": []
+  },
+  {
+    "category": "Хореография(танцы)",
+    "subcategory": []
+  },
+  {
+    "category": "Зрелищные искусства",
+    "subcategory": []
+  },
+  {
+    "category": "Познавательные развлечения",
+    "subcategory": []
+  },
+  {
+    "category": "Туризм",
+    "subcategory": []
+  },
+  {
+    "category": "Естественные науки",
+    "subcategory": []
+  },
+  {
+    "category": "Люди и животные",
+    "subcategory": []
+  },
+  {
+    "category": "Эстетические виды спорта",
+    "subcategory": []
+  },
+  {
+    "category": "Технические виды спорта",
+    "subcategory": []
+  },
+  {
+    "category": "Командно-игровой спорт",
+    "subcategory": []
+  },
+  {
+    "category": "Индивидуально игровой спорт",
+    "subcategory": []
+  },
+  {
+    "category": "Водные виды спорта",
+    "subcategory": []
+  },
+  {
+    "category": "Лёгкая атлетика и гимнастика",
+    "subcategory": []
+  },
+  {
+    "category": "Физкультура",
+    "subcategory": []
+  }
+]

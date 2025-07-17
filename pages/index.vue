@@ -1,23 +1,38 @@
 <script setup lang="ts">
-
 import Navbar from "~/components/navbar.vue";
 import HeaderKC from "~/components/header-kc.vue";
 import MainFrame from "~/components/main-frame.vue";
 import SiteSearch from "~/components/site-search.vue";
 import BtnNav from "~/components/UI/btn-nav.vue";
 import BtnNavMap from "~/components/UI/btn-nav-map.vue";
-import Border from "~/components/UI/border.vue";
-
-// Реактивное состояние для активной кнопки
-import { ref } from 'vue';
 import Filters from "~/components/filters.vue";
-import H2kc from "~/components/UI/h2kc.vue";
-import CardsAgeContainer from "~/components/cards-age-container.vue";
-const activeButton = ref('Все'); // По умолчанию активна кнопка "Все"
+import CardsContainer from "~/components/cards-container.vue";
+import type { CardData } from "~/types/Icard";
+import { ref, computed, onMounted } from 'vue';
 
-const setActiveButton = (buttonName) => {
-    activeButton.value = buttonName; // Устанавливаем активную кнопку
+const activeButton = ref('Все');
+const setActiveButton = (buttonName: string) => {
+    activeButton.value = buttonName;
 };
+
+const cards = ref<CardData[]>([]);
+
+async function loadCards() {
+    try {
+        cards.value = await $fetch<CardData[]>('/cards.json');
+    } catch (error) {
+        console.error('Ошибка при загрузке cards.json:', error);
+    }
+}
+
+onMounted(() => {
+    loadCards();
+});
+
+const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
+const indexedCategories = computed(() =>
+    categories.value.map((category, index) => [index, category])
+);
 </script>
 
 <template>
@@ -36,9 +51,11 @@ const setActiveButton = (buttonName) => {
         </navbar>
         <div class="cards-container-filters-container">
             <div class="cards-container">
-                <div class="cards-age-container">
-                    <cards-age-container></cards-age-container>
-                    <cards-age-container></cards-age-container>
+                <div class="cards-container">
+                    <cards-container
+                        v-for="category in categories"
+                        :category="category"
+                    ></cards-container>
                 </div>
             </div>
             <div class="filters-container">
@@ -49,26 +66,29 @@ const setActiveButton = (buttonName) => {
 </template>
 
 <style scoped>
-    .cards-container-filters-container{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        max-width: 1400px;
-        width: 100%;
-        margin: 20px 40px 20px 40px;
-        gap: 40px;
-    }
-    .cards-container{
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-    .cards-age-container{
-        display: flex;
-        flex-direction: column;
-    }
-    .filters-container{
-        flex-grow: 1;
-        max-width: 330px;
-    }
+.cards-container-filters-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 1400px;
+    width: 100%;
+    margin: 20px 40px 20px 40px;
+    gap: 40px;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.filters-container {
+    flex-grow: 1;
+    max-width: 330px;
+}
 </style>

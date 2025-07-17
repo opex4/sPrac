@@ -30,6 +30,7 @@ input {
     color: inherit;
     outline: none;
 }
+
 /* Сброс стилей для button */
 button {
     box-sizing: border-box; /* Устанавливает правильное поведение размеров */
@@ -43,6 +44,7 @@ button {
     cursor: pointer; /* Сохраняет указатель при наведении */
     outline: none; /* Убирает обводку при фокусе */
 }
+
 button:focus {
     background: none; /* Убирает стандартный фон */
 }
