@@ -115,6 +115,7 @@ const toCard = () => {
     font-weight: 600;
     font-size: 16px;
     color: var(--black);
+    white-space: pre-wrap;
 }
 
 .buttons-top {

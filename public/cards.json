@@ -4,7 +4,7 @@
     "title": "Тяжелая атлетика \n(в Юбилейном мкр.)",
     "category": "Силовой спорт",
     "subcategory": "Тяжелая атлетика",
-    "img": "../public/athletics.svg",
+    "img": "athletics",
     "cost": "Бесплатно",
     "isFirstFree": false,
     "minAge": 10,

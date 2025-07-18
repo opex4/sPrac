@@ -6,6 +6,9 @@ import personIco from '~/assets/icons/person-ico.svg';
 import clockIco from '~/assets/icons/clock-ico.svg';
 import markerMapIco from '~/assets/icons/marker-map-ico.svg';
 import placeIco from '~/assets/icons/place-ico.svg';
+import education from '~/assets/icons/education-ico.svg';
+import group from '~/assets/icons/group-ico.svg';
+import duration from '~/assets/icons/duration-ico.svg';
 
 // Определяем пропсы с типизацией
 const props = defineProps<{
@@ -18,6 +21,9 @@ const icons = {
     clock: clockIco,
     markerMap: markerMapIco,
     place: placeIco,
+    education: education,
+    group: group,
+    duration: duration,
 };
 
 // Вычисляемое свойство для выбора иконки

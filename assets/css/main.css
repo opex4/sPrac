@@ -91,3 +91,15 @@ li {
     line-height: inherit; /* Наследует высоту строки от родителя */
     outline: none; /* Убирает обводку при фокусе */
 }
+
+p {
+    all: initial;
+    display: block;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    text-decoration: inherit;
+    white-space: normal;
+}
