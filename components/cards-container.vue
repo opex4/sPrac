@@ -24,13 +24,14 @@ defineProps<{
 
 <template>
     <h2kc>{{ category }}</h2kc>
-    <div class="mb-card">
-        <card></card>
+    <div>
+        <card
+            v-for="(card) in cards"
+            :card="card"
+        ></card>
     </div>
 </template>
 
 <style scoped>
-.mb-card {
-    margin-bottom: 20px;
-}
+
 </style>

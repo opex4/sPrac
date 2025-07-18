@@ -6,7 +6,6 @@ import BtnBurgundy from "~/components/UI/btn-burgundy.vue";
 import Schedule from "~/components/UI/schedule.vue";
 import Border from "~/components/UI/border.vue";
 import BtnBorder from "~/components/UI/btn-border.vue";
-import {title} from "nitropack/dist/presets/_unenv/workerd/process";
 
 defineProps<{
     card?: {
@@ -27,46 +26,52 @@ defineProps<{
 </script>
 
 <template>
-    <border>
-        <div class="card">
-            <div class="card-image"><img src="../public/placeholder.svg" alt="placeholder"></div>
-            <div class="card-list">
-                <div class="card-buttons-top-h3-container">
-                    <h3 class="h3">{{ title }}</h3>
-                    <div class="buttons-top">
-                        <btn-border v-if="isFirstFree">Первое бесплатно</btn-border>
-                        <btn-pink>{{ cost }}</btn-pink>
+    <div class="mb-card">
+        <border>
+            <div class="card">
+                <div class="card-image"><img src="../public/placeholder.svg" alt="placeholder"></div>
+                <div class="card-list">
+                    <div class="card-buttons-top-h3-container">
+                        <h3 class="h3">{{ card.title }}</h3>
+                        <div class="buttons-top">
+                            <btn-border v-if="card.isFirstFree">Первое бесплатно</btn-border>
+                            <btn-pink>{{ card.cost }}</btn-pink>
+                        </div>
                     </div>
-                </div>
-                <div class="list-buttons-bottom">
-                    <ul class="card-ul">
-                        <li class="card-type">#Тяжёлая атлетика</li>
-                        <li>
-                            <ico-description icon-name="person">10-18 лет</ico-description>
-                        </li>
-                        <li>
-                            <ico-description icon-name="place">г. Иркутск, Юбилейный мкр., стр. 49/1</ico-description>
-                        </li>
-                        <li>
-                            <ico-description icon-name="markerMap">ФОК “Юбилейный”</ico-description>
-                        </li>
-                        <li class="time">
-                            <ico-description icon-name="clock">Пн, Ср, Пт</ico-description>
-                            <schedule>09:00 - 10:30</schedule>
-                            <schedule>12:00 - 13:30</schedule>
-                            <schedule>18:00 - 19:30</schedule>
-                        </li>
-                    </ul>
-                    <div class="buttons-bottom">
-                        <btn-burgundy>Подробнее</btn-burgundy>
+                    <div class="list-buttons-bottom">
+                        <ul class="card-ul">
+                            <li class="card-type">#{{ card.subcategory }}</li>
+                            <li>
+                                <ico-description icon-name="person">{{ card.minAge }}-{{ card.maxAge }} лет</ico-description>
+                            </li>
+                            <li>
+                                <ico-description icon-name="place">{{ card.address }}</ico-description>
+                            </li>
+                            <li>
+                                <ico-description icon-name="markerMap">{{ card.buildingTitle }}</ico-description>
+                            </li>
+                            <li class="time">
+                                <ico-description icon-name="clock">{{ card.schedule }}</ico-description>
+                                <schedule
+                                    v-for="timeSlot in card.timeSlots"
+                                    :timeSlot="timeSlot"
+                                ></schedule>
+                            </li>
+                        </ul>
+                        <div class="buttons-bottom">
+                            <btn-burgundy>Подробнее</btn-burgundy>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </border>
+        </border>
+    </div>
 </template>
 
 <style scoped>
+.mb-card {
+    margin-bottom: 20px;
+}
 .card {
     margin: 10px;
     display: flex;

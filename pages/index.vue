@@ -30,9 +30,29 @@ onMounted(() => {
 });
 
 const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
-const indexedCategories = computed(() =>
-    categories.value.map((category, index) => [index, category])
-);
+
+// Создаем cardsContainer с группировкой по subcategory
+const cardsContainer = computed(() => {
+    return categories.value.map(category => [
+        category, // Название категории (String)
+        cards.value
+            .filter(card => card.category === category)
+            .map(card => ({
+                id: card.id,
+                title: card.title,
+                category: card.category,
+                subcategory: card.subcategory,
+                cost: card.cost,
+                isFirstFree: card.isFirstFree,
+                minAge: card.minAge,
+                maxAge: card.maxAge,
+                address: card.address,
+                buildingTitle: card.buildingTitle,
+                schedule: card.schedule,
+                timeSlots: card.timeSlots
+            }))
+    ]);
+});
 </script>
 
 <template>
@@ -53,8 +73,9 @@ const indexedCategories = computed(() =>
             <div class="cards-container">
                 <div class="cards-container">
                     <cards-container
-                        v-for="category in categories"
+                        v-for="[category, cards] in cardsContainer"
                         :category="category"
+                        :cards="cards"
                     ></cards-container>
                 </div>
             </div>

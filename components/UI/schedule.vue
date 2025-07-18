@@ -1,10 +1,14 @@
 <script setup lang="ts">
-
+defineProps<{
+    timeSlot?: {
+        timeSlot: string
+    }
+}>()
 </script>
 
 <template>
     <span class="schedule">
-        <slot></slot>
+        <slot>{{ timeSlot }}</slot>
     </span>
 </template>
 
