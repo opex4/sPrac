@@ -1,9 +1,9 @@
 <script setup lang="ts">
-
+defineEmits(['click']);
 </script>
 
 <template>
-    <button class="btn-burgundy">
+    <button @click="$emit('click')" class="btn-burgundy">
         <slot></slot>
     </button>
 </template>

@@ -6,8 +6,9 @@ import BtnBurgundy from "~/components/UI/btn-burgundy.vue";
 import Schedule from "~/components/UI/schedule.vue";
 import Border from "~/components/UI/border.vue";
 import BtnBorder from "~/components/UI/btn-border.vue";
+import { useRouter } from 'vue-router';
 
-defineProps<{
+const props = defineProps<{
     card?: {
         id: number;
         title: string;
@@ -23,6 +24,12 @@ defineProps<{
         timeSlots: string[];
     }
 }>()
+
+// Переход на страницу card
+const router = useRouter();
+const toCard = () => {
+    router.push(`/card/${props.card.id}`);
+};
 </script>
 
 <template>
@@ -59,7 +66,7 @@ defineProps<{
                             </li>
                         </ul>
                         <div class="buttons-bottom">
-                            <btn-burgundy>Подробнее</btn-burgundy>
+                            <btn-burgundy @click="toCard">Подробнее</btn-burgundy>
                         </div>
                     </div>
                 </div>

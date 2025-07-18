@@ -10,13 +10,14 @@ import CardsContainer from "~/components/cards-container.vue";
 import type { CardData } from "~/types/Icard";
 import { ref, computed, onMounted } from 'vue';
 
+// Логика nav кнопок
 const activeButton = ref('Все');
 const setActiveButton = (buttonName: string) => {
     activeButton.value = buttonName;
 };
 
+// Загрузка cards.json
 const cards = ref<CardData[]>([]);
-
 async function loadCards() {
     try {
         cards.value = await $fetch<CardData[]>('/cards.json');
@@ -24,35 +25,32 @@ async function loadCards() {
         console.error('Ошибка при загрузке cards.json:', error);
     }
 }
-
 onMounted(() => {
     loadCards();
 });
 
+// Создаем cardsContainer с группировкой по category
 const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
-
-// Создаем cardsContainer с группировкой по subcategory
 const cardsContainer = computed(() => {
     return categories.value.map(category => [
-        category, // Название категории (String)
-        cards.value
-            .filter(card => card.category === category)
-            .map(card => ({
-                id: card.id,
-                title: card.title,
-                category: card.category,
-                subcategory: card.subcategory,
-                cost: card.cost,
-                isFirstFree: card.isFirstFree,
-                minAge: card.minAge,
-                maxAge: card.maxAge,
-                address: card.address,
-                buildingTitle: card.buildingTitle,
-                schedule: card.schedule,
-                timeSlots: card.timeSlots
-            }))
+        category,
+        cards.value.filter(card => card.category === category).map(card => ({
+            id: card.id,
+            title: card.title,
+            category: card.category,
+            subcategory: card.subcategory,
+            cost: card.cost,
+            isFirstFree: card.isFirstFree,
+            minAge: card.minAge,
+            maxAge: card.maxAge,
+            address: card.address,
+            buildingTitle: card.buildingTitle,
+            schedule: card.schedule,
+            timeSlots: card.timeSlots
+        }))
     ]);
 });
+
 </script>
 
 <template>
