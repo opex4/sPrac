@@ -6,6 +6,24 @@ import BtnBurgundy from "~/components/UI/btn-burgundy.vue";
 import Schedule from "~/components/UI/schedule.vue";
 import Border from "~/components/UI/border.vue";
 import BtnBorder from "~/components/UI/btn-border.vue";
+import {title} from "nitropack/dist/presets/_unenv/workerd/process";
+
+defineProps<{
+    card?: {
+        id: number;
+        title: string;
+        category: string;
+        subcategory: string;
+        cost: string;
+        isFirstFree: boolean;
+        minAge: number;
+        maxAge: number;
+        address: string;
+        buildingTitle: string;
+        schedule: string;
+        timeSlots: string[];
+    }
+}>()
 </script>
 
 <template>
@@ -14,10 +32,10 @@ import BtnBorder from "~/components/UI/btn-border.vue";
             <div class="card-image"><img src="../public/placeholder.svg" alt="placeholder"></div>
             <div class="card-list">
                 <div class="card-buttons-top-h3-container">
-                    <h3 class="h3">Тяжёлая атлетика<br>(в Юбилейном мкр.)</h3>
+                    <h3 class="h3">{{ title }}</h3>
                     <div class="buttons-top">
-                        <btn-border>Первое бесплатно</btn-border>
-                        <btn-pink>Бесплатно</btn-pink>
+                        <btn-border v-if="isFirstFree">Первое бесплатно</btn-border>
+                        <btn-pink>{{ cost }}</btn-pink>
                     </div>
                 </div>
                 <div class="list-buttons-bottom">

@@ -1,3 +1,6 @@
+import _default from "@speed-highlight/core/common";
+import str = _default.str;
+
 export interface CardData {
     id: number;
     title: string;
@@ -11,12 +14,15 @@ export interface CardData {
     address: string;
     buildingTitle: string;
     schedule: string;
-    timeSlots: string;
+    timeSlots: string[];
     teacher: string;
     remainingPlaces: string;
     duration: string;
     description: string;
-    contents: string[];
+    contents: string[{
+        title: string,
+        paragraph: string
+    }];
 }
 
 export class Card {

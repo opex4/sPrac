@@ -5,7 +5,7 @@
     "category": "Силовой спорт",
     "subcategory": "Тяжелая атлетика",
     "img": "../public/athletics.svg",
-    "isFree": true,
+    "cost": "Бесплатно",
     "isFirstFree": false,
     "minAge": 10,
     "maxAge": 18,
@@ -34,7 +34,7 @@
     "category": "Силовой спорт",
     "subcategory": "Тяжелая атлетика",
     "img": "",
-    "isFree": false,
+    "cost": "500 руб.",
     "isFirstFree": true,
     "minAge": 10,
     "maxAge": 18,
@@ -46,7 +46,16 @@
     "remainingPlaces": "",
     "duration": "",
     "description": "",
-    "contents": []
+    "contents": [
+      {
+        "title": "Базовый уровень",
+        "paragraph": ""
+      },
+      {
+        "title": "Углубленный уровень",
+        "paragraph": ""
+      }
+    ]
   },
   {
     "id": 3,
@@ -54,7 +63,7 @@
     "category": "Силовой спорт",
     "subcategory": "Тяжелая атлетика",
     "img": "",
-    "isFree": false,
+    "cost": "3200 руб. 8 занятий",
     "isFirstFree": true,
     "minAge": 10,
     "maxAge": 18,
@@ -66,7 +75,16 @@
     "remainingPlaces": "",
     "duration": "",
     "description": "",
-    "contents": []
+    "contents": [
+      {
+        "title": "Базовый уровень",
+        "paragraph": ""
+      },
+      {
+        "title": "Углубленный уровень",
+        "paragraph": ""
+      }
+    ]
   },
   {
     "id": 4,
@@ -74,7 +92,7 @@
     "category": "Силовой спорт",
     "subcategory": "Пауэрлифтинг",
     "img": "",
-    "isFree": true,
+    "cost": "Бесплатно",
     "isFirstFree": false,
     "minAge": 10,
     "maxAge": 18,
@@ -86,7 +104,16 @@
     "remainingPlaces": "",
     "duration": "",
     "description": "",
-    "contents": []
+    "contents": [
+      {
+        "title": "Базовый уровень",
+        "paragraph": ""
+      },
+      {
+        "title": "Углубленный уровень",
+        "paragraph": ""
+      }
+    ]
   },
   {
     "id": 5,
@@ -94,7 +121,7 @@
     "category": "Единоборства",
     "subcategory": "Дзюдо",
     "img": "",
-    "isFree": true,
+    "cost": "Бесплатно",
     "isFirstFree": false,
     "minAge": 6,
     "maxAge": 18,
@@ -106,7 +133,16 @@
     "remainingPlaces": "",
     "duration": "",
     "description": "",
-    "contents": []
+    "contents": [
+      {
+        "title": "Базовый уровень",
+        "paragraph": ""
+      },
+      {
+        "title": "Углубленный уровень",
+        "paragraph": ""
+      }
+    ]
   },
   {
     "id": 6,
@@ -114,7 +150,7 @@
     "category": "Единоборства",
     "subcategory": "Вольная борьба",
     "img": "",
-    "isFree": false,
+    "cost": "3200 руб. месяц",
     "isFirstFree": true,
     "minAge": 6,
     "maxAge": 18,
@@ -126,6 +162,15 @@
     "remainingPlaces": "",
     "duration": "",
     "description": "",
-    "contents": []
+    "contents": [
+      {
+        "title": "Базовый уровень",
+        "paragraph": ""
+      },
+      {
+        "title": "Углубленный уровень",
+        "paragraph": ""
+      }
+    ]
   }
 ]
