@@ -1,3 +1,6 @@
+import _default from "@speed-highlight/core/common";
+import str = _default.str;
+
 export interface CardData {
     id: number;
     title: string;
@@ -16,8 +19,13 @@ export interface CardData {
     remainingPlaces: string;
     duration: string;
     description: string;
-    contents: string[{
+    contents: [{
         title: string,
-        paragraph: string
+        paragraph: [
+            {
+                h5: string,
+                li: string[]
+            }
+        ]
     }];
 }

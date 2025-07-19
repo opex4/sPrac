@@ -11,9 +11,6 @@
     --burgundy-dark: #2F050F;
     --beige: #F7DAAB;
 
-    /*--light-grey: #EFEFEF;*/
-    /*--blue-green: #1B7984;*/
-
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -102,4 +99,32 @@ p {
     text-align: inherit;
     text-decoration: inherit;
     white-space: normal;
+}
+
+h4 {
+    all: unset;
+    display: block;
+    font: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    text-align: inherit;
+    text-decoration: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+}
+
+.h5 {
+    all: unset;
+    display: block;
+    font: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    text-align: inherit;
+    text-decoration: inherit;
+    line-height: inherit;
+    letter-spacing: normal;
+    word-spacing: normal;
 }

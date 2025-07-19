@@ -134,7 +134,7 @@
                     <span>{{ item.title }}</span>
                     <span class="arrow" :class="{ open: item.isOpen }">
                         <div class="sizes-ico-accordion">
-                          <img src="../assets/icons/accordion-ico.svg" alt="">
+                          <img src="../assets/icons/accordion-ico.svg" alt="ico">
                         </div>
                     </span>
                 </div>
@@ -142,7 +142,7 @@
                     <ul class="ul-gap">
                         <li class="li-accordion" v-for="(content, contentIndex) in item.content" :key="contentIndex">
                             <img src="../assets/icons/list-marker-ico.svg" alt="marker">
-                            <span class="ml-12px">{{ content }}</span>
+                            <span class="li-text">{{ content }}</span>
                         </li>
                     </ul>
                 </div>
@@ -279,7 +279,7 @@
         align-items: center;
         margin-left: 2px;
     }
-    .ml-12px {
+    .li-text {
         margin-left: 12px;
     }
     .ul-gap {
