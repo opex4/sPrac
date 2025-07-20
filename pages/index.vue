@@ -9,6 +9,8 @@ import Filters from "~/components/filters.vue";
 import CardsContainer from "~/components/cards-container.vue";
 import type { CardData } from "~/types/Icard";
 import { ref, computed, onMounted } from 'vue';
+import type {IFilterAccordion} from "~/types/IFilterAccordion";
+
 
 // Логика nav кнопок
 const activeButton = ref('Все');
@@ -16,8 +18,9 @@ const setActiveButton = (buttonName: string) => {
     activeButton.value = buttonName;
 };
 
-// Загрузка cards.json
+// Загрузка cards.json и filter_json
 const cards = ref<CardData[]>([]);
+const filterAccordion = ref<IFilterAccordion[]>([]);
 async function loadCards() {
     try {
         cards.value = await $fetch<CardData[]>('/cards.json');
@@ -25,8 +28,16 @@ async function loadCards() {
         console.error('Ошибка при загрузке cards.json:', error);
     }
 }
+async function loadFilterAccordion(){
+    try {
+        filterAccordion.value = await $fetch<IFilterAccordion[]>('/filter_accordion.json');
+    } catch (error) {
+        console.error('Ошибка при загрузке filter_accordion.json:', error);
+    }
+}
 onMounted(() => {
     loadCards();
+    loadFilterAccordion();
 });
 
 // Создаем cardsContainer с группировкой по category
@@ -51,6 +62,344 @@ const cardsContainer = computed(() => {
     ]);
 });
 
+// Фильтры
+// const filterAccordion = ref<IFilterAccordion[]>([
+//     {
+//         category: {
+//             title: "Силовой спорт",
+//             counter: 4,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "Тяжелая атлетика",
+//             counter: 3,
+//             isSelected: false,
+//         },
+//             {
+//                 title: "Пауэрлифтинг",
+//                 counter: 1,
+//                 isSelected: false,
+//             }],
+//         isOpen: true
+//     },
+//     {
+//         category: {
+//             title: "Единоборства",
+//             counter: 2,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "Вольная борьба",
+//             counter: 1,
+//             isSelected: false,
+//         },
+//             {
+//                 title: "Дзюдо",
+//                 counter: 1,
+//                 isSelected: false,
+//             }],
+//         isOpen: true
+//     },
+//     {
+//         category: {
+//             title: "ДПИ и ремесла",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Техническое конструирование",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Словесность",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Иностранные языки",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Развитие интеллекта",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Информационные технологии",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "История и Традиции",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Педагогика",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Музыка и звук",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Пение",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Хореография(танцы)",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Зрелищные искусства",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Познавательные развлечения",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Туризм",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Естественные науки",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Люди и животные",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Эстетические виды спорта",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Технические виды спорта",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Командно-игровой спорт",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Индивидуально игровой спорт",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Водные виды спорта",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Лёгкая атлетика и гимнастика",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     },
+//     {
+//         category: {
+//             title: "Физкультура",
+//             counter: 0,
+//             isSelected: false
+//         },
+//         subCategory: [{
+//             title: "",
+//             counter: 0,
+//             isSelected: false,
+//         }],
+//         isOpen: false
+//     }
+// ]);
 </script>
 
 <template>
@@ -78,7 +427,9 @@ const cardsContainer = computed(() => {
                 </div>
             </div>
             <div class="filters-container">
-                <filters></filters>
+                <filters
+                    :accordion="filterAccordion"
+                ></filters>
             </div>
         </div>
     </main-frame>

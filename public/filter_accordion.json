@@ -1,0 +1,387 @@
+[
+  {
+    "category": {
+      "title": "Силовой спорт",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "Тяжелая атлетика",
+        "counter": 0,
+        "isSelected": false
+      },
+      {
+        "title": "Пауэрлифтинг",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": true
+  },
+  {
+    "category": {
+      "title": "Единоборства",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "Вольная борьба",
+        "counter": 0,
+        "isSelected": false
+      },
+      {
+        "title": "Дзюдо",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": true
+  },
+  {
+    "category": {
+      "title": "ДПИ и ремесла",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Техническое конструирование",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Словесность",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Иностранные языки",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Развитие интеллекта",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Информационные технологии",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "История и Традиции",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Педагогика",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Музыка и звук",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Пение",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Хореография(танцы)",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Зрелищные искусства",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Познавательные развлечения",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Туризм",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Естественные науки",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Люди и животные",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Эстетические виды спорта",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Технические виды спорта",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Командно-игровой спорт",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Индивидуально игровой спорт",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Водные виды спорта",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Лёгкая атлетика и гимнастика",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  },
+  {
+    "category": {
+      "title": "Физкультура",
+      "counter": 0,
+      "isSelected": false
+    },
+    "subCategory": [
+      {
+        "title": "",
+        "counter": 0,
+        "isSelected": false
+      }
+    ],
+    "isOpen": false
+  }
+]
