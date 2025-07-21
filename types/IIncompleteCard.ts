@@ -4,6 +4,7 @@ export interface IIncompleteCard {
     title: string;
     category: string;
     subcategory: string;
+    isFree: boolean;
     cost: string;
     isFirstFree: boolean;
     minAge: number;

@@ -66,7 +66,8 @@ const filteredCategories = computed(() => {
     }
     return categoriesValue.filter(category =>
         filterValue.filterAccordion.some(accordion =>
-            accordion.category.isSelected && accordion.category.title === category
+            (accordion.category.isSelected && accordion.category.title === category) ||
+            (accordion.subCategory.some(subCategory => subCategory.isSelected))
         )
     );
 });
@@ -79,43 +80,50 @@ interface ICardsContainer{
 const cardsContainer = computed<ICardsContainer[]>(() => {
     return filteredCategories.value.map(category => ({
         category: category,
-        incompleteCards: cards.value
-            .filter(card => card.category === category)
-            .map(card => ({
-                id: card.id,
-                title: card.title,
-                category: card.category,
-                subcategory: card.subcategory,
-                cost: card.cost,
-                isFirstFree: card.isFirstFree,
-                minAge: card.minAge,
-                maxAge: card.maxAge,
-                address: card.address,
-                buildingTitle: card.buildingTitle,
-                schedule: card.schedule,
-                timeSlots: card.timeSlots
-            }))
+        incompleteCards: cards.value.filter(card => card.category === category).map(card => ({
+            id: card.id,
+            title: card.title,
+            category: card.category,
+            subcategory: card.subcategory,
+            isFree: card.isFree,
+            cost: card.cost,
+            isFirstFree: card.isFirstFree,
+            minAge: card.minAge,
+            maxAge: card.maxAge,
+            address: card.address,
+            buildingTitle: card.buildingTitle,
+            schedule: card.schedule,
+            timeSlots: card.timeSlots
+        }))
     }));
 });
 
-// // Фильтрация по суб категориям
-// const filteredCardsContainer = computed(() => {
-//     const cardsContainerValue = cardsContainer.value;
-//     const filterValue = filter.value;
-//     const hasAnySelectedCategory = filterValue.filterAccordion.some(
-//         accordion => accordion.subCategory.some(subCategory => subCategory.isSelected)
-//     );
-//
-//     // Если ни одна суб категория не выбрана, возвращаем все суб категории
-//     if (!hasAnySelectedCategory) {
-//         return cardsContainerValue;
-//     }
-//     return cardsContainerValue.filter(card =>
-//         filterValue.filterAccordion.some(accordion =>
-//             accordion.subCategory.some(subCategory => subCategory.title === card.subcategory)
-//         )
-//     );
-// });
+// Фильтрация по суб категориям
+const filteredCardsContainer = computed(() => {
+    // Проверяем, все ли суб категории не выбраны
+    const isSubCategoryAllNoSelected = filter.value.filterAccordion.every(
+        accordion => accordion.subCategory.every(sub => sub.isSelected === false)
+    );
+
+    // Если все ли суб категории не выбраны - возвращаем все карточки
+    if (isSubCategoryAllNoSelected) {
+        return cardsContainer.value;
+    }
+
+    // Фильтруем карточки внутри каждого контейнера
+    return cardsContainer.value.map(container => ({
+        ...container, // Копируем все свойства контейнера
+        incompleteCards: container.incompleteCards.filter(card =>
+            // Оставляем только карточки с выбранными подкатегориями
+            filter.value.filterAccordion.some(accordion =>
+                accordion.subCategory.some(sub => sub.isSelected && sub.title === card.subcategory)
+            )
+        )
+    }))
+    // Удаляем контейнеры, в которых не осталось карточек после фильтрации
+    .filter(container => container.incompleteCards.length > 0);
+});
+
 </script>
 
 <template>
@@ -136,7 +144,7 @@ const cardsContainer = computed<ICardsContainer[]>(() => {
             <div class="cards-container">
                 <div class="cards-container">
                     <cards-container
-                        v-for="cardsContainer in cardsContainer"
+                        v-for="cardsContainer in filteredCardsContainer"
                         :category="cardsContainer.category"
                         :cards="cardsContainer.incompleteCards"
                     ></cards-container>
