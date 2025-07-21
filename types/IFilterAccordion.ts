@@ -12,5 +12,5 @@ export interface IFilterAccordion {
         counter: number;
         isSelected: boolean;
     }],
-        isOpen: boolean;
+    isOpen: boolean;
 }

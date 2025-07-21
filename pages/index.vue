@@ -9,14 +9,17 @@ import Filters from "~/components/filters.vue";
 import CardsContainer from "~/components/cards-container.vue";
 import type { CardData } from "~/types/Icard";
 import { ref, computed, onMounted } from 'vue';
-import type {IFilterAccordion} from "~/types/IFilterAccordion";
-
+import type { IFilterAccordion } from "~/types/IFilterAccordion";
+import type { IFilter } from "~/types/IFilter";
 
 // Логика nav кнопок
-const activeButton = ref('Все');
+const activeNavButton = ref('Все');
 const setActiveButton = (buttonName: string) => {
-    activeButton.value = buttonName;
+    activeNavButton.value = buttonName;
 };
+
+// Данные с siteSearch
+const siteSearchText = ref<string>("");
 
 // Загрузка cards.json и filter_json
 const cards = ref<CardData[]>([]);
@@ -62,344 +65,13 @@ const cardsContainer = computed(() => {
     ]);
 });
 
+// Выбранный возраст
+const selectedAge = ref<number>(0);
+// Данные фильтра
+const filter = ref<IFilter>({ filterAccordion, selectedAge });
+
 // Фильтры
-// const filterAccordion = ref<IFilterAccordion[]>([
-//     {
-//         category: {
-//             title: "Силовой спорт",
-//             counter: 4,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "Тяжелая атлетика",
-//             counter: 3,
-//             isSelected: false,
-//         },
-//             {
-//                 title: "Пауэрлифтинг",
-//                 counter: 1,
-//                 isSelected: false,
-//             }],
-//         isOpen: true
-//     },
-//     {
-//         category: {
-//             title: "Единоборства",
-//             counter: 2,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "Вольная борьба",
-//             counter: 1,
-//             isSelected: false,
-//         },
-//             {
-//                 title: "Дзюдо",
-//                 counter: 1,
-//                 isSelected: false,
-//             }],
-//         isOpen: true
-//     },
-//     {
-//         category: {
-//             title: "ДПИ и ремесла",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Техническое конструирование",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Словесность",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Иностранные языки",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Развитие интеллекта",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Информационные технологии",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "История и Традиции",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Педагогика",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Музыка и звук",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Пение",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Хореография(танцы)",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Зрелищные искусства",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Познавательные развлечения",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Туризм",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Естественные науки",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Люди и животные",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Эстетические виды спорта",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Технические виды спорта",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Командно-игровой спорт",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Индивидуально игровой спорт",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Водные виды спорта",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Лёгкая атлетика и гимнастика",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     },
-//     {
-//         category: {
-//             title: "Физкультура",
-//             counter: 0,
-//             isSelected: false
-//         },
-//         subCategory: [{
-//             title: "",
-//             counter: 0,
-//             isSelected: false,
-//         }],
-//         isOpen: false
-//     }
-// ]);
+
 </script>
 
 <template>
@@ -407,10 +79,10 @@ const cardsContainer = computed(() => {
     <main-frame>
         <navbar>
             <template #left>
-                <site-search></site-search>
-                <btn-nav :class="{ active: activeButton === 'Все' }" @click="setActiveButton('Все')">Все</btn-nav>
-                <btn-nav :class="{ active: activeButton === 'Платные' }" @click="setActiveButton('Платные')">Платные</btn-nav>
-                <btn-nav :class="{ active: activeButton === 'Бесплатные' }" @click="setActiveButton('Бесплатные')">Бесплатные</btn-nav>
+                <site-search v-model="siteSearchText"></site-search>
+                <btn-nav :class="{ active: activeNavButton === 'Все' }" @click="setActiveButton('Все')">Все</btn-nav>
+                <btn-nav :class="{ active: activeNavButton === 'Платные' }" @click="setActiveButton('Платные')">Платные</btn-nav>
+                <btn-nav :class="{ active: activeNavButton === 'Бесплатные' }" @click="setActiveButton('Бесплатные')">Бесплатные</btn-nav>
             </template>
             <template #right>
                 <btn-nav-map>На карте</btn-nav-map>
@@ -428,7 +100,7 @@ const cardsContainer = computed(() => {
             </div>
             <div class="filters-container">
                 <filters
-                    :accordion="filterAccordion"
+                    v-model="filter"
                 ></filters>
             </div>
         </div>

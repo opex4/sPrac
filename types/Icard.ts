@@ -7,6 +7,7 @@ export interface CardData {
     category: string;
     subcategory: string;
     img: string;
+    isFree: boolean;
     cost: string;
     isFirstFree: boolean;
     minAge: number;

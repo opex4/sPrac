@@ -9,7 +9,7 @@
 <style scoped>
     .main-container{
         margin: 30px auto 0;
-        background-color: #EFEFEF;
+        background-color: var(--grey);
         border-radius: var(--big-border-radius);
         max-width: 1480px;
         display: flex;

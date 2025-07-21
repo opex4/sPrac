@@ -1,13 +1,17 @@
 <script setup lang="ts">
-
+    const props = defineProps<{
+        modelValue: string;
+    }>();
+    const emit = defineEmits(['update:modelValue']);
+    const handleInput = (event: Event) => {
+        emit('update:modelValue', (event.target as HTMLInputElement).value);
+    };
 </script>
 
 <template>
     <div class="site-search">
         <div class="search-ico"><img src="../assets/icons/search-ico.svg" alt=""></div>
-        <input class="input-search" placeholder="Поиск"
-
-        >
+        <input class="input-search" placeholder="Поиск" @input="handleInput" :value="modelValue">
     </div>
 </template>
 

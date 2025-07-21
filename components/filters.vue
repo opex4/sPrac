@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Border from "~/components/UI/border.vue";
 import H2kc from "~/components/UI/h2kc.vue";
-import {onMounted, ref, watch} from "vue";
-import type { IFilterAccordion } from "~/types/IFilterAccordion";
+import {ref} from "vue";
+import type { IFilter } from "~/types/IFilter";
 
 // Интерфейс для элементов Combobox
 interface comboBoxAge {
@@ -33,31 +33,30 @@ const comboBoxAges = ref<comboBoxAge[]>([
     {age: "18 лет", value: 18},
 ]);
 
-// Реактивная переменная для выбранного значения
-const selectedOption = ref<string>('0'); // Значение по умолчанию (value: 0)
-
-// Эмит события для v-model в родительском компоненте
-const emit = defineEmits(['update:modelValue']);
-
 // Синхронизация с v-model
 const props = defineProps<{
-    modelValue?: string; // Сделали опциональным, чтобы избежать undefined
-    accordion: IFilterAccordion;
+    modelValue: IFilter;
 }>();
 
-watch(() => props.modelValue, (newValue) => {
-    if (newValue !== undefined) {
-        selectedOption.value = newValue;
-    }
-});
+// Событие для v-model в родительском компоненте
+const emit = defineEmits(['update:modelValue']);
 
-watch(selectedOption, (newValue) => {
-    emit('update:modelValue', newValue);
-});
-
-// Метод для переключения состояния аккордеона
 const toggleItem = (index: number) => {
-    props.accordion[index].isOpen = !props.accordion[index].isOpen;
+    const updatedValue = [...props.modelValue.filterAccordion];
+    updatedValue[index].isOpen = !updatedValue[index].isOpen;
+    emit('update:modelValue', updatedValue);
+};
+
+const changeSelect = (index: number) => {
+    const updatedValue = [...props.modelValue.filterAccordion];
+    updatedValue[index].category.isSelected = !updatedValue[index].category.isSelected;
+    emit('update:modelValue', updatedValue);
+};
+
+const changeSubSelect = (indexCat: number, indexSubCat: number) => {
+    const updatedValue = [...props.modelValue.filterAccordion];
+    updatedValue[indexCat].subCategory[indexSubCat].isSelected = !updatedValue[indexCat].subCategory[indexSubCat].isSelected;
+    emit('update:modelValue', updatedValue);
 };
 
 // Фильтры
@@ -70,7 +69,7 @@ const toggleItem = (index: number) => {
         <form class="f-cont">
             <h3 class="h3">Возраст</h3>
             <div class="border-down">
-                <select v-model="selectedOption" name="dropdown" class="combobox-age">
+                <select v-model="modelValue.selectedAge" name="dropdown" class="combobox-age">
                     <option v-for="option in comboBoxAges" :key="option.value" :value="option.value.toString()">
                         {{ option.age }}
                     </option>
@@ -90,24 +89,24 @@ const toggleItem = (index: number) => {
                 </label>
             </div>
             <h3 class="h3 h3-mb-0">Каталог</h3>
-            <div v-for="(item, index) in accordion" :key="index">
-                <div class="accordion-header" @click="toggleItem(index)">
+            <div v-for="(item, index) in modelValue.filterAccordion" :key="index">
+                <div class="accordion-header">
                     <div class="accordion-header-left">
-                        <span>{{ item.category.title }}</span>
+                        <span class="category-title c-p" @click="changeSelect(index)" :class="{ selected: item.category.isSelected }">{{ item.category.title }}</span>
                         <span class="counter" v-if="item.category.counter || item.category.counter !== 0">{{ item.category.counter }}</span>
                     </div>
-                    <span class="arrow" :class="{ open: item.isOpen }">
-                        <div class="sizes-ico-accordion">
+                    <span class="arrow" :class="{ open: item.isOpen }" @click="toggleItem(index)">
+                        <div class="sizes-ico-accordion c-p">
                           <img src="../assets/icons/accordion-ico.svg" alt="ico">
                         </div>
                     </span>
                 </div>
                 <div class="accordion-content" :class="{ open: item.isOpen }">
                     <ul class="ul-gap">
-                        <li class="li-accordion" v-for="(subCategory, index) in item.subCategory" :key="index">
-                            <div class="c-p" v-if="subCategory.title || subCategory.title !== ''">
+                        <li class="li-accordion" v-for="(subCategory, ind) in item.subCategory" :key="ind">
+                            <div v-if="subCategory.title || subCategory.title !== ''">
                                 <img src="../assets/icons/list-marker-ico.svg" alt="marker">
-                                <span class="li-text">{{ subCategory.title }}</span>
+                                <span class="li-text c-p" @click="changeSubSelect(index, ind)" :class="{ selected: subCategory.isSelected }">{{ subCategory.title }}</span>
                                 <span class="counter" v-if="subCategory.counter || subCategory.counter !== 0">{{ subCategory.counter }}</span>
                             </div>
                         </li>
@@ -230,7 +229,6 @@ const toggleItem = (index: number) => {
 
 /* Стили для аккордеона */
 .accordion-header {
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -242,6 +240,14 @@ const toggleItem = (index: number) => {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+}
+
+.category-title:hover {
+    color: var(--pink);
+}
+
+.category-title.selected{
+    color: var(--burgundy);
 }
 
 .counter{
@@ -281,6 +287,14 @@ const toggleItem = (index: number) => {
 
 .li-text {
     margin-left: 12px;
+}
+
+.li-text:hover {
+    color: var(--pink);
+}
+
+.li-text.selected{
+    color: var(--burgundy);
 }
 
 .ul-gap {
