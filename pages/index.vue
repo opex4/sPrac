@@ -11,6 +11,7 @@ import type { CardData } from "~/types/Icard";
 import { ref, computed, onMounted } from 'vue';
 import type { IFilterAccordion } from "~/types/IFilterAccordion";
 import type { IFilter } from "~/types/IFilter";
+import type {IIncompleteCard} from "~/types/IIncompleteCard";
 
 // Логика nav кнопок
 const activeNavButton = ref('Все');
@@ -43,35 +44,78 @@ onMounted(() => {
     loadFilterAccordion();
 });
 
-// Создаем cardsContainer с группировкой по category
-const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
-const cardsContainer = computed(() => {
-    return categories.value.map(category => [
-        category,
-        cards.value.filter(card => card.category === category).map(card => ({
-            id: card.id,
-            title: card.title,
-            category: card.category,
-            subcategory: card.subcategory,
-            cost: card.cost,
-            isFirstFree: card.isFirstFree,
-            minAge: card.minAge,
-            maxAge: card.maxAge,
-            address: card.address,
-            buildingTitle: card.buildingTitle,
-            schedule: card.schedule,
-            timeSlots: card.timeSlots
-        }))
-    ]);
-});
-
 // Выбранный возраст
 const selectedAge = ref<number>(0);
-// Данные фильтра
+// Структура для filters
 const filter = ref<IFilter>({ filterAccordion, selectedAge });
 
-// Фильтры
+// Создаем cardsContainer с группировкой по category
+const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
 
+// Фильтрация по категориям
+const filteredCategories = computed(() => {
+    const categoriesValue = categories.value;
+    const filterValue = filter.value;
+    const hasAnySelectedCategory = filterValue.filterAccordion.some(
+        accordion => accordion.category.isSelected
+    );
+
+    // Если ни одна категория не выбрана, возвращаем все категории
+    if (!hasAnySelectedCategory) {
+        return categoriesValue;
+    }
+    return categoriesValue.filter(category =>
+        filterValue.filterAccordion.some(accordion =>
+            accordion.category.isSelected && accordion.category.title === category
+        )
+    );
+});
+
+interface ICardsContainer{
+    category: string;
+    incompleteCards: IIncompleteCard[];
+}
+
+const cardsContainer = computed<ICardsContainer[]>(() => {
+    return filteredCategories.value.map(category => ({
+        category: category,
+        incompleteCards: cards.value
+            .filter(card => card.category === category)
+            .map(card => ({
+                id: card.id,
+                title: card.title,
+                category: card.category,
+                subcategory: card.subcategory,
+                cost: card.cost,
+                isFirstFree: card.isFirstFree,
+                minAge: card.minAge,
+                maxAge: card.maxAge,
+                address: card.address,
+                buildingTitle: card.buildingTitle,
+                schedule: card.schedule,
+                timeSlots: card.timeSlots
+            }))
+    }));
+});
+
+// // Фильтрация по суб категориям
+// const filteredCardsContainer = computed(() => {
+//     const cardsContainerValue = cardsContainer.value;
+//     const filterValue = filter.value;
+//     const hasAnySelectedCategory = filterValue.filterAccordion.some(
+//         accordion => accordion.subCategory.some(subCategory => subCategory.isSelected)
+//     );
+//
+//     // Если ни одна суб категория не выбрана, возвращаем все суб категории
+//     if (!hasAnySelectedCategory) {
+//         return cardsContainerValue;
+//     }
+//     return cardsContainerValue.filter(card =>
+//         filterValue.filterAccordion.some(accordion =>
+//             accordion.subCategory.some(subCategory => subCategory.title === card.subcategory)
+//         )
+//     );
+// });
 </script>
 
 <template>
@@ -92,9 +136,9 @@ const filter = ref<IFilter>({ filterAccordion, selectedAge });
             <div class="cards-container">
                 <div class="cards-container">
                     <cards-container
-                        v-for="[category, cards] in cardsContainer"
-                        :category="category"
-                        :cards="cards"
+                        v-for="cardsContainer in cardsContainer"
+                        :category="cardsContainer.category"
+                        :cards="cardsContainer.incompleteCards"
                     ></cards-container>
                 </div>
             </div>

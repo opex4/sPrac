@@ -7,22 +7,10 @@ import Schedule from "~/components/UI/schedule.vue";
 import Border from "~/components/UI/border.vue";
 import BtnBorder from "~/components/UI/btn-border.vue";
 import { useRouter } from 'vue-router';
+import type {IIncompleteCard} from "~/types/IIncompleteCard";
 
 const props = defineProps<{
-    card?: {
-        id: number;
-        title: string;
-        category: string;
-        subcategory: string;
-        cost: string;
-        isFirstFree: boolean;
-        minAge: number;
-        maxAge: number;
-        address: string;
-        buildingTitle: string;
-        schedule: string;
-        timeSlots: string[];
-    }
+    card?: IIncompleteCard;
 }>()
 
 // Переход на страницу card

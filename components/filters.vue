@@ -42,25 +42,39 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue']);
 
 const toggleItem = (index: number) => {
-    const updatedValue = [...props.modelValue.filterAccordion];
-    updatedValue[index].isOpen = !updatedValue[index].isOpen;
+    const updatedValue = {...props.modelValue};
+    updatedValue.filterAccordion[index].isOpen = !updatedValue.filterAccordion[index].isOpen;
     emit('update:modelValue', updatedValue);
 };
 
 const changeSelect = (index: number) => {
-    const updatedValue = [...props.modelValue.filterAccordion];
-    updatedValue[index].category.isSelected = !updatedValue[index].category.isSelected;
-    emit('update:modelValue', updatedValue);
+    const updatedValue = {...props.modelValue};
+    updatedValue.filterAccordion[index].category.isSelected = !updatedValue.filterAccordion[index].category.isSelected;
+    emit('update:modelValue', checkIsSelectedCategories(updatedValue));
 };
 
 const changeSubSelect = (indexCat: number, indexSubCat: number) => {
-    const updatedValue = [...props.modelValue.filterAccordion];
-    updatedValue[indexCat].subCategory[indexSubCat].isSelected = !updatedValue[indexCat].subCategory[indexSubCat].isSelected;
-    emit('update:modelValue', updatedValue);
+    const updatedValue = {...props.modelValue};
+    updatedValue.filterAccordion[indexCat].subCategory[indexSubCat].isSelected = !updatedValue.filterAccordion[indexCat].subCategory[indexSubCat].isSelected;
+    emit('update:modelValue', checkIsSelectedCategories(updatedValue));
 };
 
-// Фильтры
-
+function checkIsSelectedCategories(modelValue: IFilter) {
+    // Если хотя бы одна категория выбрана
+    if (modelValue.filterAccordion.some(fa => fa.category.isSelected)) {
+        // Проходим по всем категориям
+        modelValue.filterAccordion.forEach(filterAccordion => {
+            // Если категория НЕ выбрана, сбрасываем все её подкатегории
+            if (!filterAccordion.category.isSelected) {
+                filterAccordion.subCategory.forEach(subCat => {
+                    subCat.isSelected = false;
+                });
+            }
+        });
+    }
+    // Возвращаем изменённый (или нет) объект
+    return modelValue;
+}
 </script>
 
 <template>
