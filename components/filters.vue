@@ -3,34 +3,29 @@ import Border from "~/components/UI/border.vue";
 import H2kc from "~/components/UI/h2kc.vue";
 import {ref} from "vue";
 import type { IFilter } from "~/types/IFilter";
-
-// Интерфейс для элементов Combobox
-interface comboBoxAge {
-    age: string;
-    value: number;
-}
+import type { IComboBoxAge } from "~/types/IComboBoxAge";
 
 // Данные для комбобокса
-const comboBoxAges = ref<comboBoxAge[]>([
-    {age: "Любой", value: 0},
-    {age: "1 год", value: 1},
-    {age: "2 года", value: 2},
-    {age: "3 года", value: 3},
-    {age: "4 года", value: 4},
-    {age: "5 лет", value: 5},
-    {age: "6 лет", value: 6},
-    {age: "7 лет", value: 7},
-    {age: "8 лет", value: 8},
-    {age: "9 лет", value: 9},
-    {age: "10 лет", value: 10},
-    {age: "11 лет", value: 11},
-    {age: "12 лет", value: 12},
-    {age: "13 лет", value: 13},
-    {age: "14 лет", value: 14},
-    {age: "15 лет", value: 15},
-    {age: "16 лет", value: 16},
-    {age: "17 лет", value: 17},
-    {age: "18 лет", value: 18},
+const comboBoxAges = ref<IComboBoxAge[]>([
+    {age: "Любой", value: "0"},
+    {age: "1 год", value: "1"},
+    {age: "2 года", value: "2"},
+    {age: "3 года", value: "3"},
+    {age: "4 года", value: "4"},
+    {age: "5 лет", value: "5"},
+    {age: "6 лет", value: "6"},
+    {age: "7 лет", value: "7"},
+    {age: "8 лет", value: "8"},
+    {age: "9 лет", value: "9"},
+    {age: "10 лет", value: "10"},
+    {age: "11 лет", value: "11"},
+    {age: "12 лет", value: "12"},
+    {age: "13 лет", value: "13"},
+    {age: "14 лет", value: "14"},
+    {age: "15 лет", value: "15"},
+    {age: "16 лет", value: "16"},
+    {age: "17 лет", value: "17"},
+    {age: "18 лет", value: "18"},
 ]);
 
 // Синхронизация с v-model
@@ -50,31 +45,23 @@ const toggleItem = (index: number) => {
 const changeSelect = (index: number) => {
     const updatedValue = {...props.modelValue};
     updatedValue.filterAccordion[index].category.isSelected = !updatedValue.filterAccordion[index].category.isSelected;
-    emit('update:modelValue', checkIsSelectedCategories(updatedValue));
+    updatedValue.filterAccordion[index].subCategory.forEach(subCategory =>
+        subCategory.isSelected = updatedValue.filterAccordion[index].category.isSelected
+    )
+    emit('update:modelValue', updatedValue);
 };
 
 const changeSubSelect = (indexCat: number, indexSubCat: number) => {
     const updatedValue = {...props.modelValue};
     updatedValue.filterAccordion[indexCat].subCategory[indexSubCat].isSelected = !updatedValue.filterAccordion[indexCat].subCategory[indexSubCat].isSelected;
-    emit('update:modelValue', checkIsSelectedCategories(updatedValue));
-};
-
-function checkIsSelectedCategories(modelValue: IFilter) {
-    // Если хотя бы одна категория выбрана
-    if (modelValue.filterAccordion.some(fa => fa.category.isSelected)) {
-        // Проходим по всем категориям
-        modelValue.filterAccordion.forEach(filterAccordion => {
-            // Если категория НЕ выбрана, сбрасываем все её подкатегории
-            if (!filterAccordion.category.isSelected) {
-                filterAccordion.subCategory.forEach(subCat => {
-                    subCat.isSelected = false;
-                });
-            }
-        });
+    if(updatedValue.filterAccordion[indexCat].subCategory.some(subCategory => subCategory.isSelected)){
+        updatedValue.filterAccordion[indexCat].category.isSelected = true;
     }
-    // Возвращаем изменённый (или нет) объект
-    return modelValue;
-}
+    if(updatedValue.filterAccordion[indexCat].subCategory.every(subCategory => !subCategory.isSelected)){
+        updatedValue.filterAccordion[indexCat].category.isSelected = false;
+    }
+    emit('update:modelValue', updatedValue);
+};
 </script>
 
 <template>
@@ -84,7 +71,7 @@ function checkIsSelectedCategories(modelValue: IFilter) {
             <h3 class="h3">Возраст</h3>
             <div class="border-down">
                 <select v-model="modelValue.selectedAge" name="dropdown" class="combobox-age">
-                    <option v-for="option in comboBoxAges" :key="option.value" :value="option.value.toString()">
+                    <option v-for="option in comboBoxAges" :value="option.value">
                         {{ option.age }}
                     </option>
                 </select>

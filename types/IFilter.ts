@@ -4,5 +4,5 @@ import str = _default.str;
 
 export interface IFilter {
     filterAccordion: IFilterAccordion[];
-    selectedAge: number;
+    selectedAge: string;
 }

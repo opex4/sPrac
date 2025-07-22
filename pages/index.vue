@@ -20,7 +20,7 @@ const setActiveButton = (buttonName: string) => {
 };
 
 // Данные с siteSearch
-const siteSearchText = ref<string>("");
+const siteSearchText = ref<string>();
 
 // Загрузка cards.json и filter_json
 const cards = ref<CardData[]>([]);
@@ -45,7 +45,7 @@ onMounted(() => {
 });
 
 // Выбранный возраст
-const selectedAge = ref<number>(0);
+const selectedAge = ref<string>("0");
 // Структура для filters
 const filter = ref<IFilter>({ filterAccordion, selectedAge });
 
@@ -98,20 +98,29 @@ const cardsContainer = computed<ICardsContainer[]>(() => {
     }));
 });
 
-// Фильтрация по суб категориям
+// Фильтрация CardsContainer
 const filteredCardsContainer = computed(() => {
+    let result = cardsContainer.value;
+    result = subCategoryFilter(result);
+    result = ageFilter(result, selectedAge.value);
+    result = isFreeFilter(result, activeNavButton.value);
+    result = siteSearchFilter(result, siteSearchText.value);
+    return result;
+});
+
+function subCategoryFilter (cardsContainer: ICardsContainer){
     // Проверяем, все ли суб категории не выбраны
     const isSubCategoryAllNoSelected = filter.value.filterAccordion.every(
-        accordion => accordion.subCategory.every(sub => sub.isSelected === false)
+        accordion => accordion.subCategory.every(sub => !sub.isSelected)
     );
 
     // Если все ли суб категории не выбраны - возвращаем все карточки
     if (isSubCategoryAllNoSelected) {
-        return cardsContainer.value;
+        return cardsContainer;
     }
 
     // Фильтруем карточки внутри каждого контейнера
-    return cardsContainer.value.map(container => ({
+    return cardsContainer.map(container => ({
         ...container, // Копируем все свойства контейнера
         incompleteCards: container.incompleteCards.filter(card =>
             // Оставляем только карточки с выбранными подкатегориями
@@ -120,10 +129,61 @@ const filteredCardsContainer = computed(() => {
             )
         )
     }))
-    // Удаляем контейнеры, в которых не осталось карточек после фильтрации
-    .filter(container => container.incompleteCards.length > 0);
-});
+        // Удаляем контейнеры, в которых не осталось карточек после фильтрации
+        .filter(container => container.incompleteCards.length > 0);
+}
 
+// Фильтрация по age
+function ageFilter (cardsContainer: ICardsContainer, selectedAge: string){
+    // Если выбраны все возраста
+    if(selectedAge === "0"){
+        return cardsContainer;
+    }
+    // Если выбран конкретный возраст
+    return cardsContainer.map(container => ({
+        ...container, // Копируем все свойства контейнера
+        incompleteCards: container.incompleteCards.filter(
+            card => card.minAge <= selectedAge && card.maxAge >= selectedAge
+        )
+    }))
+        // Удаляем контейнеры, в которых не осталось карточек после фильтрации
+        .filter(container => container.incompleteCards.length > 0);
+}
+// Фильтрация по isFree
+function isFreeFilter (cardsContainer: ICardsContainer, activeNavButton: string){
+    // Если фильтрация не нужна
+    if(activeNavButton === "Все"){
+        return cardsContainer;
+    }
+
+    // Если фильтрация нужна
+    const isFree = activeNavButton === "Бесплатные";
+    return cardsContainer.map(container => ({
+        ...container, // Копируем все свойства контейнера
+        incompleteCards: container.incompleteCards.filter(
+            card => card.isFree === isFree
+        )
+    }))
+        // Удаляем контейнеры, в которых не осталось карточек после фильтрации
+        .filter(container => container.incompleteCards.length > 0);
+}
+// Фильтрация по siteSearch
+function siteSearchFilter (cardsContainer: ICardsContainer, siteSearchText: string){
+    // Если фильтрация не нужна
+    if(!siteSearchText){
+        return cardsContainer;
+    }
+
+    // Если фильтрация нужна
+    return cardsContainer.map(container => ({
+        ...container, // Копируем все свойства контейнера
+        incompleteCards: container.incompleteCards.filter(
+            card => card.title.toLowerCase().includes(siteSearchText)
+        )
+    }))
+        // Удаляем контейнеры, в которых не осталось карточек после фильтрации
+        .filter(container => container.incompleteCards.length > 0);
+}
 </script>
 
 <template>
