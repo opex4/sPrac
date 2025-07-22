@@ -1,32 +1,7 @@
 <script setup lang="ts">
 import Border from "~/components/UI/border.vue";
 import H2kc from "~/components/UI/h2kc.vue";
-import {ref} from "vue";
 import type { IFilter } from "~/types/IFilter";
-import type { IComboBoxAge } from "~/types/IComboBoxAge";
-
-// Данные для комбобокса
-const comboBoxAges = ref<IComboBoxAge[]>([
-    {age: "Любой", value: "0"},
-    {age: "1 год", value: "1"},
-    {age: "2 года", value: "2"},
-    {age: "3 года", value: "3"},
-    {age: "4 года", value: "4"},
-    {age: "5 лет", value: "5"},
-    {age: "6 лет", value: "6"},
-    {age: "7 лет", value: "7"},
-    {age: "8 лет", value: "8"},
-    {age: "9 лет", value: "9"},
-    {age: "10 лет", value: "10"},
-    {age: "11 лет", value: "11"},
-    {age: "12 лет", value: "12"},
-    {age: "13 лет", value: "13"},
-    {age: "14 лет", value: "14"},
-    {age: "15 лет", value: "15"},
-    {age: "16 лет", value: "16"},
-    {age: "17 лет", value: "17"},
-    {age: "18 лет", value: "18"},
-]);
 
 // Синхронизация с v-model
 const props = defineProps<{
@@ -62,6 +37,13 @@ const changeSubSelect = (indexCat: number, indexSubCat: number) => {
     }
     emit('update:modelValue', updatedValue);
 };
+
+const handleChange = (event: Event) => {
+    const value = (event.target as HTMLSelectElement).value;
+    const updatedValue = {...props.modelValue};
+    updatedValue.selectedAge = value;
+    emit('update:modelValue', updatedValue);
+};
 </script>
 
 <template>
@@ -70,8 +52,8 @@ const changeSubSelect = (indexCat: number, indexSubCat: number) => {
         <form class="f-cont">
             <h3 class="h3">Возраст</h3>
             <div class="border-down">
-                <select v-model="modelValue.selectedAge" name="dropdown" class="combobox-age">
-                    <option v-for="option in comboBoxAges" :value="option.value">
+                <select v-model="modelValue.selectedAge" name="dropdown" class="combobox-age" @change="handleChange">
+                    <option v-for="option in modelValue.comboBoxAge" :key="option.value" :value="option.value">
                         {{ option.age }}
                     </option>
                 </select>

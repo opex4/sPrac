@@ -7,11 +7,12 @@ import BtnNav from "~/components/UI/btn-nav.vue";
 import BtnNavMap from "~/components/UI/btn-nav-map.vue";
 import Filters from "~/components/filters.vue";
 import CardsContainer from "~/components/cards-container.vue";
-import type { CardData } from "~/types/Icard";
+import type { ICard } from "~/types/Icard";
 import { ref, computed, onMounted } from 'vue';
 import type { IFilterAccordion } from "~/types/IFilterAccordion";
 import type { IFilter } from "~/types/IFilter";
-import type {IIncompleteCard} from "~/types/IIncompleteCard";
+import type { IIncompleteCard } from "~/types/IIncompleteCard";
+import type {IComboBoxAge} from "~/types/IComboBoxAge";
 
 // Логика nav кнопок
 const activeNavButton = ref('Все');
@@ -23,11 +24,11 @@ const setActiveButton = (buttonName: string) => {
 const siteSearchText = ref<string>();
 
 // Загрузка cards.json и filter_json
-const cards = ref<CardData[]>([]);
+const cards = ref<ICard[]>([]);
 const filterAccordion = ref<IFilterAccordion[]>([]);
 async function loadCards() {
     try {
-        cards.value = await $fetch<CardData[]>('/cards.json');
+        cards.value = await $fetch<ICard[]>('/cards.json');
     } catch (error) {
         console.error('Ошибка при загрузке cards.json:', error);
     }
@@ -44,33 +45,36 @@ onMounted(() => {
     loadFilterAccordion();
 });
 
-// Выбранный возраст
-const selectedAge = ref<string>("0");
+// Данные для comboBoxAge
+const comboBoxAge = ref<IComboBoxAge[]>([
+    {age: "Любой", value: "0"},
+    {age: "1 год", value: "1"},
+    {age: "2 года", value: "2"},
+    {age: "3 года", value: "3"},
+    {age: "4 года", value: "4"},
+    {age: "5 лет", value: "5"},
+    {age: "6 лет", value: "6"},
+    {age: "7 лет", value: "7"},
+    {age: "8 лет", value: "8"},
+    {age: "9 лет", value: "9"},
+    {age: "10 лет", value: "10"},
+    {age: "11 лет", value: "11"},
+    {age: "12 лет", value: "12"},
+    {age: "13 лет", value: "13"},
+    {age: "14 лет", value: "14"},
+    {age: "15 лет", value: "15"},
+    {age: "16 лет", value: "16"},
+    {age: "17 лет", value: "17"},
+    {age: "18 лет", value: "18"},
+]);
+
+const selectedAge = ref<string>("0")
+
 // Структура для filters
-const filter = ref<IFilter>({ filterAccordion, selectedAge });
+const filter = ref<IFilter>({ filterAccordion, comboBoxAge: comboBoxAge,  selectedAge});
 
 // Создаем cardsContainer с группировкой по category
 const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
-
-// Фильтрация по категориям
-const filteredCategories = computed(() => {
-    const categoriesValue = categories.value;
-    const filterValue = filter.value;
-    const hasAnySelectedCategory = filterValue.filterAccordion.some(
-        accordion => accordion.category.isSelected
-    );
-
-    // Если ни одна категория не выбрана, возвращаем все категории
-    if (!hasAnySelectedCategory) {
-        return categoriesValue;
-    }
-    return categoriesValue.filter(category =>
-        filterValue.filterAccordion.some(accordion =>
-            (accordion.category.isSelected && accordion.category.title === category) ||
-            (accordion.subCategory.some(subCategory => subCategory.isSelected))
-        )
-    );
-});
 
 interface ICardsContainer{
     category: string;
@@ -78,7 +82,7 @@ interface ICardsContainer{
 }
 
 const cardsContainer = computed<ICardsContainer[]>(() => {
-    return filteredCategories.value.map(category => ({
+    return categories.value.map(category => ({
         category: category,
         incompleteCards: cards.value.filter(card => card.category === category).map(card => ({
             id: card.id,
@@ -101,10 +105,10 @@ const cardsContainer = computed<ICardsContainer[]>(() => {
 // Фильтрация CardsContainer
 const filteredCardsContainer = computed(() => {
     let result = cardsContainer.value;
+    result = ageFilter(result);
     result = subCategoryFilter(result);
-    result = ageFilter(result, selectedAge.value);
-    result = isFreeFilter(result, activeNavButton.value);
-    result = siteSearchFilter(result, siteSearchText.value);
+    result = isFreeFilter(result);
+    result = siteSearchFilter(result,);
     return result;
 });
 
@@ -134,30 +138,30 @@ function subCategoryFilter (cardsContainer: ICardsContainer){
 }
 
 // Фильтрация по age
-function ageFilter (cardsContainer: ICardsContainer, selectedAge: string){
+function ageFilter (cardsContainer: ICardsContainer){
     // Если выбраны все возраста
-    if(selectedAge === "0"){
+    if(filter.value.selectedAge === "0"){
         return cardsContainer;
     }
     // Если выбран конкретный возраст
     return cardsContainer.map(container => ({
         ...container, // Копируем все свойства контейнера
         incompleteCards: container.incompleteCards.filter(
-            card => card.minAge <= selectedAge && card.maxAge >= selectedAge
+            card => card.minAge <= filter.value.selectedAge && card.maxAge >= filter.value.selectedAge
         )
     }))
         // Удаляем контейнеры, в которых не осталось карточек после фильтрации
         .filter(container => container.incompleteCards.length > 0);
 }
 // Фильтрация по isFree
-function isFreeFilter (cardsContainer: ICardsContainer, activeNavButton: string){
+function isFreeFilter (cardsContainer: ICardsContainer){
     // Если фильтрация не нужна
-    if(activeNavButton === "Все"){
+    if(activeNavButton.value === "Все"){
         return cardsContainer;
     }
 
     // Если фильтрация нужна
-    const isFree = activeNavButton === "Бесплатные";
+    const isFree = activeNavButton.value === "Бесплатные";
     return cardsContainer.map(container => ({
         ...container, // Копируем все свойства контейнера
         incompleteCards: container.incompleteCards.filter(
@@ -168,9 +172,9 @@ function isFreeFilter (cardsContainer: ICardsContainer, activeNavButton: string)
         .filter(container => container.incompleteCards.length > 0);
 }
 // Фильтрация по siteSearch
-function siteSearchFilter (cardsContainer: ICardsContainer, siteSearchText: string){
+function siteSearchFilter (cardsContainer: ICardsContainer){
     // Если фильтрация не нужна
-    if(!siteSearchText){
+    if(!siteSearchText.value){
         return cardsContainer;
     }
 
@@ -178,7 +182,7 @@ function siteSearchFilter (cardsContainer: ICardsContainer, siteSearchText: stri
     return cardsContainer.map(container => ({
         ...container, // Копируем все свойства контейнера
         incompleteCards: container.incompleteCards.filter(
-            card => card.title.toLowerCase().includes(siteSearchText)
+            card => card.title.toLowerCase().includes(siteSearchText.value)
         )
     }))
         // Удаляем контейнеры, в которых не осталось карточек после фильтрации

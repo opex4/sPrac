@@ -1,7 +1,7 @@
 import _default from "@speed-highlight/core/common";
 import str = _default.str;
 
-export interface CardData {
+export interface ICard {
     id: number;
     title: string;
     category: string;

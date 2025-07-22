@@ -11,7 +11,7 @@ import BtnBorder from "~/components/UI/btn-border.vue";
 import BtnPink from "~/components/UI/btn-pink.vue";
 import IcoDescription from "~/components/UI/ico-description.vue";
 import BtnBurgundy from "~/components/UI/btn-burgundy.vue";
-import type { CardData } from "~/types/Icard";
+import type { ICard } from "~/types/Icard";
 import Placeholder from "~/public/placeholder.svg";
 import Athletics from "~/public/athletics.svg";
 import { ref, computed, onMounted } from 'vue';
@@ -26,10 +26,10 @@ const goToHomePage = () => {
 };
 
 // Загрузка cards.json
-const cards = ref<CardData[]>([]);
+const cards = ref<ICard[]>([]);
 async function loadCards() {
     try {
-        cards.value = await $fetch<CardData[]>('/cards.json');
+        cards.value = await $fetch<ICard[]>('/cards.json');
     } catch (error) {
         console.error('Ошибка при загрузке cards.json:', error);
     }
