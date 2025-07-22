@@ -6,18 +6,11 @@ import BtnBurgundy from "~/components/UI/btn-burgundy.vue";
 import Schedule from "~/components/UI/schedule.vue";
 import Border from "~/components/UI/border.vue";
 import BtnBorder from "~/components/UI/btn-border.vue";
-import { useRouter } from 'vue-router';
 import type {IIncompleteCard} from "~/types/IIncompleteCard";
 
 const props = defineProps<{
     card?: IIncompleteCard;
 }>()
-
-// Переход на страницу card
-const router = useRouter();
-const toCard = () => {
-    router.push(`/card/${props.card.id}`);
-};
 </script>
 
 <template>
@@ -37,7 +30,8 @@ const toCard = () => {
                         <ul class="card-ul">
                             <li class="card-type">#{{ card.subcategory }}</li>
                             <li>
-                                <ico-description icon-name="person">{{ card.minAge }}-{{ card.maxAge }} лет</ico-description>
+                                <ico-description icon-name="person">{{ card.minAge }}-{{ card.maxAge }} лет
+                                </ico-description>
                             </li>
                             <li>
                                 <ico-description icon-name="place">{{ card.address }}</ico-description>
@@ -46,7 +40,10 @@ const toCard = () => {
                                 <ico-description icon-name="markerMap">{{ card.buildingTitle }}</ico-description>
                             </li>
                             <li class="time">
-                                <ico-description icon-name="clock" :class="{ bold: true }">{{ card.schedule }}</ico-description>
+                                <ico-description icon-name="clock" :class="{ bold: true }">{{
+                                        card.schedule
+                                    }}
+                                </ico-description>
                                 <schedule
                                     v-for="timeSlot in card.timeSlots"
                                     :timeSlot="timeSlot"
@@ -54,7 +51,9 @@ const toCard = () => {
                             </li>
                         </ul>
                         <div class="buttons-bottom">
-                            <btn-burgundy @click="toCard">Подробнее</btn-burgundy>
+                            <nuxt-link :to="{ name: 'card-id', params: { id: card?.id } }">
+                                <btn-burgundy>Подробнее</btn-burgundy>
+                            </nuxt-link>
                         </div>
                     </div>
                 </div>
@@ -67,6 +66,7 @@ const toCard = () => {
 .mb-card {
     margin-bottom: 20px;
 }
+
 .card {
     margin: 10px;
     display: flex;

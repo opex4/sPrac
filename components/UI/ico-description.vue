@@ -57,6 +57,6 @@ const imageSrc = computed(() => {
 }
 
 .bold{
-    font-weight: 500 !important;
+    font-weight: 600 !important;
 }
 </style>

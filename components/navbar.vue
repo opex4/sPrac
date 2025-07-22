@@ -25,5 +25,6 @@
     .nav-buttons{
         display: flex;
         flex-direction: row;
+        gap: 20px;
     }
 </style>

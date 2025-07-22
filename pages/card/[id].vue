@@ -6,7 +6,7 @@ import MainFrame from "~/components/main-frame.vue";
 import BtnNavMap from "~/components/UI/btn-nav-map.vue";
 import BtnNavReturn from "~/components/UI/btn-nav-return.vue";
 import Border from "~/components/UI/border.vue";
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import BtnBorder from "~/components/UI/btn-border.vue";
 import BtnPink from "~/components/UI/btn-pink.vue";
 import IcoDescription from "~/components/UI/ico-description.vue";
@@ -19,11 +19,7 @@ import Schedule from "~/components/UI/schedule.vue";
 
 // Маршрутизация
 const route = useRoute();
-const router = useRouter();
 const id = computed(() => Number(route.params.id));
-const goToHomePage = () => {
-    router.push('/');
-};
 
 // Загрузка cards.json
 const cards = ref<ICard[]>([]);
@@ -69,7 +65,9 @@ const subAccordionOpen = (index: number) => {
         <main-frame>
             <navbar>
                 <template #left>
-                    <btn-nav-return @click="goToHomePage">Назад</btn-nav-return>
+                    <nuxt-link :to="{ name: 'index', params: {} }">
+                        <btn-nav-return>Назад</btn-nav-return>
+                    </nuxt-link>
                 </template>
                 <template #right>
                     <btn-nav-map>На карте</btn-nav-map>
@@ -256,7 +254,7 @@ const subAccordionOpen = (index: number) => {
         color: var(--burgundy);
     }
     .strange-text {
-        font-weight: 500;
+        font-weight: 600;
         font-size: 16px;
         color: var(--black);
     }
