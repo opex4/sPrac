@@ -43,13 +43,17 @@
     border: none;
     padding: 0;
     margin: 0;
+    color: var(--pink);
+    font-weight: 400;
+    opacity: 1;
+    font-size: 14px;
+    text-transform: lowercase;
 }
 input::placeholder {
     color: var(--pink);
     font-weight: 400;
     opacity: 1;
     font-size: 14px;
-    leading-trim: NONE;
-    line-height: 100%;
+    text-transform: none;
 }
 </style>

@@ -15,6 +15,7 @@ import type { IIncompleteCard } from "~/types/IIncompleteCard";
 import type {IComboBoxAge} from "~/types/IComboBoxAge";
 
 // Логика nav кнопок
+const navButtons = ref(["Все", "Платные", "Бесплатные"])
 const activeNavButton = ref('Все');
 const setActiveButton = (buttonName: string) => {
     activeNavButton.value = buttonName;
@@ -196,9 +197,7 @@ function siteSearchFilter (cardsContainer: ICardsContainer){
         <navbar>
             <template #left>
                 <site-search v-model="siteSearchText"></site-search>
-                <btn-nav :class="{ active: activeNavButton === 'Все' }" @click="setActiveButton('Все')">Все</btn-nav>
-                <btn-nav :class="{ active: activeNavButton === 'Платные' }" @click="setActiveButton('Платные')">Платные</btn-nav>
-                <btn-nav :class="{ active: activeNavButton === 'Бесплатные' }" @click="setActiveButton('Бесплатные')">Бесплатные</btn-nav>
+                <btn-nav v-for="name in navButtons" :class="{ active: activeNavButton === name }" @click="setActiveButton(name)">{{ name }}</btn-nav>
             </template>
             <template #right>
                 <btn-nav-map>На карте</btn-nav-map>

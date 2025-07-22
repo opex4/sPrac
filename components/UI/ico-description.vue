@@ -33,7 +33,7 @@ const imageSrc = computed(() => {
 </script>
 
 <template>
-    <div class="ico-description">
+    <div class="ico-description" :class="{ active: $attrs.class?.includes('bold') }">
         <img :src="imageSrc" alt="ico">
         <span><slot></slot></span>
     </div>
@@ -54,5 +54,9 @@ const imageSrc = computed(() => {
 .ico-description img {
     width: 18px;
     height: 18px;
+}
+
+.bold{
+    font-weight: 500 !important;
 }
 </style>

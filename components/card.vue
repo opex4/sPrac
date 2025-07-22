@@ -46,7 +46,7 @@ const toCard = () => {
                                 <ico-description icon-name="markerMap">{{ card.buildingTitle }}</ico-description>
                             </li>
                             <li class="time">
-                                <ico-description icon-name="clock">{{ card.schedule }}</ico-description>
+                                <ico-description icon-name="clock" :class="{ bold: true }">{{ card.schedule }}</ico-description>
                                 <schedule
                                     v-for="timeSlot in card.timeSlots"
                                     :timeSlot="timeSlot"
@@ -104,6 +104,7 @@ const toCard = () => {
     font-size: 16px;
     color: var(--black);
     white-space: pre-wrap;
+    line-height: 1.2;
 }
 
 .buttons-top {

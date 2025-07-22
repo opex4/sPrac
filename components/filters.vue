@@ -155,9 +155,14 @@ const handleChange = (event: Event) => {
     font-weight: 400;
     font-size: 14px;
     color: var(--black);
+    cursor: pointer;
     border: none;
     outline: none;
     appearance: none;
+}
+
+.combobox-age option:checked {
+    background-color: var(--grey-dark);
 }
 
 /* Стили для чекбокса */
