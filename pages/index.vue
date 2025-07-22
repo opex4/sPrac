@@ -72,7 +72,7 @@ const comboBoxAge = ref<IComboBoxAge[]>([
 const selectedAge = ref<string>("0")
 
 // Структура для filters
-const filter = ref<IFilter>({ filterAccordion, comboBoxAge: comboBoxAge,  selectedAge});
+const filter = ref<IFilter>({ filterAccordion, comboBoxAge,  selectedAge});
 
 // Создаем cardsContainer с группировкой по category
 const categories = computed(() => [...new Set(cards.value.map(c => c.category))]);
@@ -110,10 +110,11 @@ const filteredCardsContainer = computed(() => {
     result = subCategoryFilter(result);
     result = isFreeFilter(result);
     result = siteSearchFilter(result,);
+    setupCounters(result);
     return result;
 });
 
-function subCategoryFilter (cardsContainer: ICardsContainer){
+function subCategoryFilter (cardsContainer: ICardsContainer[]){
     // Проверяем, все ли суб категории не выбраны
     const isSubCategoryAllNoSelected = filter.value.filterAccordion.every(
         accordion => accordion.subCategory.every(sub => !sub.isSelected)
@@ -139,7 +140,7 @@ function subCategoryFilter (cardsContainer: ICardsContainer){
 }
 
 // Фильтрация по age
-function ageFilter (cardsContainer: ICardsContainer){
+function ageFilter (cardsContainer: ICardsContainer[]){
     // Если выбраны все возраста
     if(filter.value.selectedAge === "0"){
         return cardsContainer;
@@ -155,7 +156,7 @@ function ageFilter (cardsContainer: ICardsContainer){
         .filter(container => container.incompleteCards.length > 0);
 }
 // Фильтрация по isFree
-function isFreeFilter (cardsContainer: ICardsContainer){
+function isFreeFilter (cardsContainer: ICardsContainer[]){
     // Если фильтрация не нужна
     if(activeNavButton.value === "Все"){
         return cardsContainer;
@@ -173,7 +174,7 @@ function isFreeFilter (cardsContainer: ICardsContainer){
         .filter(container => container.incompleteCards.length > 0);
 }
 // Фильтрация по siteSearch
-function siteSearchFilter (cardsContainer: ICardsContainer){
+function siteSearchFilter (cardsContainer: ICardsContainer[]){
     // Если фильтрация не нужна
     if(!siteSearchText.value){
         return cardsContainer;
@@ -188,6 +189,39 @@ function siteSearchFilter (cardsContainer: ICardsContainer){
     }))
         // Удаляем контейнеры, в которых не осталось карточек после фильтрации
         .filter(container => container.incompleteCards.length > 0);
+}
+
+// Counters для фильтра
+function setupCounters(cardsContainer: ICardsContainer[]) {
+    // Сначала обнуляем все счетчики
+    filter.value.filterAccordion.forEach(accordion => {
+        accordion.category.counter = 0;
+        accordion.subCategory.forEach(sub => sub.counter = 0);
+    });
+
+    // Подсчет количества карточек по категориям и подкатегориям
+    cardsContainer.forEach(container => {
+        // Находим соответствующий аккордеон по категории
+        const matchingAccordion = filter.value.filterAccordion.find(
+            accordion => accordion.category.title === container.category
+        );
+
+        if (matchingAccordion) {
+            // Увеличиваем счетчик категории
+            matchingAccordion.category.counter += container.incompleteCards.length;
+
+            // Подсчет подкатегорий
+            container.incompleteCards.forEach(card => {
+                const matchingSubCategory = matchingAccordion.subCategory.find(
+                    sub => sub.title === card.subcategory
+                );
+
+                if (matchingSubCategory) {
+                    matchingSubCategory.counter++;
+                }
+            });
+        }
+    });
 }
 </script>
 
