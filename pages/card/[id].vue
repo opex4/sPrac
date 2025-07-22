@@ -61,7 +61,7 @@ const subAccordionOpen = (index: number) => {
 <template>
     <p v-if="!card">Загрузка...</p>
     <div v-else>
-        <header-k-c></header-k-c>
+        <header-k-c icon-name="headerFullCard"></header-k-c>
         <main-frame>
             <navbar>
                 <template #left>

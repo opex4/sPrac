@@ -7,5 +7,12 @@ export default defineNuxtConfig({
       '~/assets/css/main.css'
   ],
 
-  modules: ['@nuxt/fonts']
+  modules: ['@nuxt/fonts'],
+
+  // Для GitHub Pages
+  app: {
+    baseURL: process.env.NODE_ENV === 'production' ? '/sPrac/' : '/',
+  },
+  // Если используете статическую генерацию
+  ssr: false,
 })

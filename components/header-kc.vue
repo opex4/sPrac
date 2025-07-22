@@ -1,11 +1,29 @@
 <script setup lang="ts">
+import { defineProps, computed } from 'vue';
+import headerIco from '~/assets/icons/header-ico.svg';
+import headerFullCardIco from '~/assets/icons/header-full-card-ico.svg';
 
+// Определяем пропсы с типизацией
+const props = defineProps<{
+    iconName: string; // Пропс для названия иконки
+}>();
+
+// Объект с маппингом имён иконок
+const icons = {
+    header: headerIco,
+    headerFullCard: headerFullCardIco,
+};
+
+// Вычисляемое свойство для выбора иконки
+const imageSrc = computed(() => {
+    return icons[props.iconName] || headerIco; // Дефолтная иконка, если имя не найдено
+});
 </script>
 
 <template>
     <header class="header">
         <div class="header-container">
-            <div class="header-logo"><img src="../assets/icons/header-ico.svg" alt=""></div>
+            <div class="header-logo"><img :src="imageSrc" alt="ico"></div>
             <h1 class="header-h1">KidsConnect</h1>
         </div>
     </header>
