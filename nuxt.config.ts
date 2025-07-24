@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   // Для GitHub Pages
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/sPrac/' : '/',
+    baseURL: '/sPrac',
   },
   // Если используете статическую генерацию
   ssr: false,
